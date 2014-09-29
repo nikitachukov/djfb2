@@ -37,43 +37,52 @@ def parse_files(files):
     for file in files[:]:
         # print(file[0])
         if check_file_md5(file[1]):
-            # try:
-            parser = etree.XMLParser(recover=True)
-            book = etree.parse(file[0], parser)
-            Authors = []
-            Book = {}
-            Annotation = ""
+            try:
+                parser = etree.XMLParser(recover=True)
+                book = etree.parse(file[0], parser)
+                Authors = []
+                Book = {}
+                Annotation = ""
 
-            description = book.getroot().find(ns + "description/")
+                description = book.getroot().find(ns + "description/")
 
-            Book = {"md5": file[1]}
+                Book = {"md5": file[1]}
 
-            for title in description.findall(ns + "book-title"):
-                Book["title"] = title.text
+                for title in description.findall(ns + "book-title"):
+                    Book["title"] = title.text
 
-            for author in description.findall(ns + "author"):
-                Author = {}
-                author_first_name = author.find(ns + "first-name")
-                if author_first_name is not None:
-                    Author['author_first_name'] = author_first_name.text
-                author_last_name = author.find(ns + "last-name")
-                if author_last_name is not None:
-                    Author['author_last_name'] = author_last_name.text
-                author_middle_name = author.find(ns + "middle-name")
-                if author_middle_name is not None:
-                    Author['author_middle_name'] = author_middle_name.text
-                Authors.append(Author)
-                Book["Autors"] = Authors
+                for author in description.findall(ns + "author"):
+                    Author = {}
+                    author_first_name = author.find(ns + "first-name")
+                    if author_first_name is not None:
+                        Author['author_first_name'] = author_first_name.text
+                    author_last_name = author.find(ns + "last-name")
+                    if author_last_name is not None:
+                        Author['author_last_name'] = author_last_name.text
+                    author_middle_name = author.find(ns + "middle-name")
+                    if author_middle_name is not None:
+                        Author['author_middle_name'] = author_middle_name.text
+                    Authors.append(Author)
+                    Book["Autors"] = Authors
 
-            for annotation in description.findall(ns + "annotation"):
-                for child in annotation:
-                    if (child is not None) and child.text:
-                        Annotation += child.text
-                        Book["Annotation"] = Annotation
-            print(Book)
+                for annotation in description.findall(ns + "annotation"):
+                    for child in annotation:
+                        if (child is not None) and child.text:
+                            Annotation += child.text
+                            Book["Annotation"] = Annotation
+
+                print(Book)
+
+            except:
+
+                pass
+        # todo: Exception Handling
 
         else:
             print("re")
+
+            # todo: repeat action
+
 
 def main():
     init()
