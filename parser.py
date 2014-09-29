@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 import os
 import hashlib
+
 from lxml import etree
-import xml.dom.minidom
-from pprint import pprint
+
 
 __author__ = 'ChukovNA'
 
