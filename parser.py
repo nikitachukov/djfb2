@@ -11,7 +11,7 @@ __author__ = 'ChukovNA'
 
 def init():
     global search_location
-    search_location = "/home/nikitos/Downloads/S.T.A.L.K.E.R__[rutracker.org]/fb2/"
+    search_location = "C:/Downloads/S.T.A.L.K.E.R__[rutracker.org]/fb2/"
     global search_mask
     # search_mask="26 - Sergey Paliy - Bumerang.fb2"
     search_mask = ".fb2"
@@ -64,23 +64,22 @@ def parse_files(files):
                         Author['author_middle_name'] = author_middle_name.text
                     Authors.append(Author)
                     Book["Autors"] = Authors
+                Genre = []
+                for genre in description.findall(ns + "genre"):
+                    Genre += [genre.text]
+                    Book["Genre"] = Genre
 
                 for annotation in description.findall(ns + "annotation"):
                     for child in annotation:
                         if (child is not None) and child.text:
                             Annotation += child.text
                             Book["Annotation"] = Annotation
-
                 print(Book)
 
-            except:
-
-                pass
-        # todo: Exception Handling
-
+            except Exception as E:
+                print(E)
         else:
             print("re")
-
             # todo: repeat action
 
 
