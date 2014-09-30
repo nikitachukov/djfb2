@@ -43,6 +43,7 @@ def parse_files(files):
                 Authors = []
                 Book = {}
                 Annotation = ""
+                Genre = []
 
                 description = book.getroot().find(ns + "description/")
 
@@ -50,6 +51,16 @@ def parse_files(files):
 
                 for title in description.findall(ns + "book-title"):
                     Book["title"] = title.text
+
+                for genre in description.findall(ns + "genre"):
+                    Genre += [genre.text]
+                    Book["Genre"] = Genre
+
+                for annotation in description.findall(ns + "annotation"):
+                    for child in annotation:
+                        if (child is not None) and child.text:
+                            Annotation += child.text
+                            Book["Annotation"] = Annotation
 
                 for author in description.findall(ns + "author"):
                     Author = {}
@@ -64,16 +75,8 @@ def parse_files(files):
                         Author['author_middle_name'] = author_middle_name.text
                     Authors.append(Author)
                     Book["Autors"] = Authors
-                Genre = []
-                for genre in description.findall(ns + "genre"):
-                    Genre += [genre.text]
-                    Book["Genre"] = Genre
 
-                for annotation in description.findall(ns + "annotation"):
-                    for child in annotation:
-                        if (child is not None) and child.text:
-                            Annotation += child.text
-                            Book["Annotation"] = Annotation
+
                 print(Book)
 
             except Exception as E:
