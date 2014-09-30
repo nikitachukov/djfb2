@@ -13,7 +13,6 @@ def init():
     global search_location
     search_location = "C:/Downloads/S.T.A.L.K.E.R__[rutracker.org]/fb2/"
     global search_mask
-    # search_mask="26 - Sergey Paliy - Bumerang.fb2"
     search_mask = ".fb2"
     global ns
     ns = "{http://www.gribuser.ru/xml/fictionbook/2.0}"
@@ -34,6 +33,8 @@ def check_file_md5(md5):
 
 
 def parse_files(files):
+    Books=[]
+
     for file in files[:]:
         # print(file[0])
         if check_file_md5(file[1]):
@@ -75,23 +76,26 @@ def parse_files(files):
                         Author['author_middle_name'] = author_middle_name.text
                     Authors.append(Author)
                     Book["Autors"] = Authors
-
-
-                print(Book)
-
+                Books.append(Book)
             except Exception as E:
                 print(E)
+
+
         else:
             print("re")
             # todo: repeat action
+    return Books
 
 
 def main():
     init()
 
     files = find_files_by_mask(search_location, search_mask)
-    parse_files(files)
+    print(parse_files(files))
 
+    # for book in parse_files(files):
+    #     if 'Autors' in book.keys():
+    #         print(book['Autors'])
 
 if __name__ == "__main__":
     main()
